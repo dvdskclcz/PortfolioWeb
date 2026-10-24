@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dvdskcl-web.pages.dev/sitemap-index.xml

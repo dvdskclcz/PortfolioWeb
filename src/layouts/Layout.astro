@@ -3,15 +3,19 @@ interface Props {
   title: string;
   description?: string;
   lang?: string;
+  image?: string;
 }
 
 const { 
   title, 
   description = "David Skácel – IT Analyst & Solutions Architect. Digitalizace procesů, automatizace a bezpečné on-premise AI.", 
-  lang = 'cs' 
+  lang = 'cs',
+  image = '/profile.jpg'
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, "https://dvdskcl.pages.dev");
+const siteUrl = 'https://dvdskcl-web.pages.dev';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImageURL = new URL(image, siteUrl).href;
 ---
 
 <!doctype html>
@@ -20,23 +24,33 @@ const canonicalURL = new URL(Astro.url.pathname, "https://dvdskcl.pages.dev");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
+    <link rel="canonical" href={canonicalURL.href} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="David Skácel" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Jazykové alternativy / Hreflang -->
+    <link rel="alternate" hreflang="cs" href="https://dvdskcl-web.pages.dev/" />
+    <link rel="alternate" hreflang="en" href="https://dvdskcl-web.pages.dev/en" />
+    <link rel="alternate" hreflang="x-default" href="https://dvdskcl-web.pages.dev/" />
 
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="David Skácel – Portfolio" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'cs_CZ'} />
+    <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/profile.jpg" />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:alt" content="David Skácel – IT Analyst & Solutions Architect" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:url" content={canonicalURL.href} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content="/profile.jpg" />
+    <meta property="twitter:image" content={ogImageURL} />
 
     <!-- Skript pro téma bez probliknutí -->
     <script is:inline>
